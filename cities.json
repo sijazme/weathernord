@@ -1,4 +1,4 @@
-[ 
+[
   {
     "country": "US",
     "name": "Chicago",
@@ -7,11 +7,93 @@
   {
     "country": "US",
     "name": "Atlanta",
-    "limit": "10"
+    "limit": "0"
   },
   {
     "country": "CA",
     "name": "Toronto",
     "limit": "-2"
-  } 
+  },
+  {
+    "country": "CA",
+    "name": "Ottawa",
+    "limit": "7"
+  },
+  {
+    "country": "MX",
+    "name": "Mexico City",
+    "limit": "15"
+  },
+  {
+    "country": "MX",
+    "name": "Cieneguilla",
+    "limit": "20"
+  },
+  {
+    "country": "MX",
+    "name": "Kivertsi",
+    "limit": "9"
+  },
+  
+  {
+    "country": "DE",
+    "name": "Rhinow",
+    "limit": "11"
+  },
+  {
+    "country": "JP",
+    "name": "Nago",
+    "limit": "19"
+  },
+  {
+    "country": "TH",
+    "name": "Phrae",
+    "limit": "5"
+  },
+  {
+    "country": "HR",
+    "name": "Trilj",
+    "limit": "0"
+  },
+  {
+    "country": "BR",
+    "name": "Tapes",
+    "limit": "0"
+  },
+  {
+    "country": "BR",
+    "name": "Tapejara",
+    "limit": "0"
+  },
+  {
+    "country": "CZ",
+    "name": "Sedlice",
+    "limit": "19"
+  },
+  {
+    "country": "CZ",
+    "name": "Sadov",
+    "limit": "19"
+  },
+  {
+    "country": "ES",
+    "name": "Bellreguard",
+    "limit": "0"
+  },
+  {
+    "country": "IE",
+    "name": "Bearna",
+    "limit": "5"
+  },
+  {
+    "country": "IT",
+    "name": "Rasura",
+    "limit": "6"
+  },
+  {
+    "country": "PH",
+    "name": "Suso",
+    "limit": "5"
+  }
+ 
 ]

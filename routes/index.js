@@ -36,7 +36,7 @@ router.get('/', function (req, res) {
                 var limit_exceeded = data.limit_exceeded;
                 var temp_lowest = data.temp_lowest;
 
-                console.log(cityname + " ---> " + temp_lowest);
+                console.log(cityname + " ---> " + temp_lowest + "limit exceeded : " + limit_exceeded);
 
                 // find if the temperature limit exceeds in the next 5 days forcast
                 //var cold_days = _.where(data.forcast, { flag: true });
@@ -48,12 +48,14 @@ router.get('/', function (req, res) {
                 //}
                 
             }
+
+            res.render('index', { title: 'Weather Forcast', data: cityarray });
         });
 
         
     });
 
-    res.render('index', { title: 'Express' });
+    
 });
 
 router.get('/weather/:city', function (req, response) {
@@ -163,16 +165,18 @@ const GetForcast = async (cityList)  => {
 
             const asnycResult = await GetOpenMapCityForcast(urlcity, limit);
             const limit_exceeded = _.where(asnycResult, { flag: true }).length > 0;
+            //var lresult = _.where(asnycResult, { flag: true });
+            //console.log(lresult.length > 0);
             //let temp_lowest = _.minBy(asnycResult, function (x) { return x.temp_min; });
 
-            const temp_lowest = Math.min(Object.entries(asnycResult).map(d => parseFloat(d.temp_lo)));
+            var arr = Object.entries(asnycResult).map(([key, value]) => [value.temp_lo]);
+            //
+            var min = Math.min.apply(null, arr);
+
+            //console.log(min);
 
             
-            //var t = Object.entries(asnycResult).map(([k, v]) => ({ temp_lo = v.temp_lo }));
-            //console.log(t);
-            //console.log(Object.entries(asnycResult).map(d => parseFloat(d.temp_lo)));
-
-            allAsyncResults.push({ city: x.name, temp_lowest: 0, limit: limit_exceeded, forcast: asnycResult });
+            allAsyncResults.push({ city: x.name, temp_lowest: min, limit_exceeded: limit_exceeded, forcast: asnycResult });
         };
 
         return allAsyncResults;
