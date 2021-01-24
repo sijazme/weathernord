@@ -1,0 +1,5 @@
+﻿{
+  "DataFile": "cities.json",
+  "OpenWeatherMapAPIKey": "2857987153c823b8e95a4bd9dbf70fdb",
+  "OpenWeatherMapAPIURL": "http://api.openweathermap.org/data/2.5/forecast?q={cityname}&units=metric&appid=2857987153c823b8e95a4bd9dbf70fdb"
+}

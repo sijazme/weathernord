@@ -1,0 +1,32 @@
+{
+  "name": "weathernord",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "description": "weathernord",
+  "author": {
+    "name": ""
+  },
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "bootstrap": "^4.6.0",
+    "cookie-parser": "^1.4.0",
+    "debug": "^2.2.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
+    "express": "^4.14.0",
+    "fs": "0.0.1-security",
+    "fs-extra": "^9.1.0",
+    "jquery": "^1.12.4",
+    "morgan": "^1.7.0",
+    "nconf": "^0.11.1",
+    "node-fetch": "^2.6.1",
+    "pg": "^8.5.1",
+    "popper.js": "^1.16.1",
+    "pug": "^2.0.0-beta6",
+    "serve-favicon": "^2.3.0",
+    "underscore": "^1.12.0"
+  }
+}
