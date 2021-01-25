@@ -32,6 +32,7 @@
     <Content Include="app.js" />
     <Content Include="controllers\forecastcontroller.js" />
     <Content Include="controllers\openweathermapcontroller.js" />
+    <Content Include="models\forecast.js" />
     <Content Include="public\images\cold.png" />
     <Content Include="public\images\logo.png" />
     <Content Include="public\images\warm.png" />
@@ -48,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="controllers\" />
+    <Folder Include="models\" />
     <Folder Include="public\" />
     <Folder Include="public\images\" />
     <Folder Include="public\javascripts\" />
