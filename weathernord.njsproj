@@ -30,10 +30,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="app.js" />
-    <Content Include="controllers\citydatacontroller.js">
-      <SubType>Code</SubType>
-    </Content>
+    <Content Include="controllers\forecastcontroller.js" />
+    <Content Include="controllers\openweathermapcontroller.js" />
     <Content Include="public\images\cold.png" />
+    <Content Include="public\images\logo.png" />
     <Content Include="public\images\warm.png" />
     <Content Include="routes\index.js" />
     <Content Include="package.json" />
