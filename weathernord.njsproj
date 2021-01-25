@@ -33,6 +33,8 @@
     <Content Include="controllers\citydatacontroller.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="public\images\cold.png" />
+    <Content Include="public\images\warm.png" />
     <Content Include="routes\index.js" />
     <Content Include="package.json" />
     <Content Include="public\stylesheets\main.css" />

@@ -20,9 +20,9 @@
     "limit": "7"
   },
   {
-    "country": "MX",
-    "name": "Mexico City",
-    "limit": "15"
+    "country": "USA",
+    "name": "Austin",
+    "limit": "12"
   },
   {
     "country": "MX",
@@ -30,8 +30,8 @@
     "limit": "20"
   },
   {
-    "country": "MX",
-    "name": "Kivertsi",
+    "country": "FI",
+    "name": "Eura",
     "limit": "9"
   },
   
@@ -46,8 +46,8 @@
     "limit": "19"
   },
   {
-    "country": "TH",
-    "name": "Phrae",
+    "country": "LV",
+    "name": "Riga",
     "limit": "5"
   },
   {
@@ -63,21 +63,21 @@
   {
     "country": "BR",
     "name": "Tapejara",
-    "limit": "0"
+    "limit": "5"
   },
   {
-    "country": "CZ",
-    "name": "Sedlice",
-    "limit": "19"
+    "country": "FI",
+    "name": "Heinola",
+    "limit": "5"
   },
   {
-    "country": "CZ",
-    "name": "Sadov",
-    "limit": "19"
+    "country": "FI",
+    "name": "Haukivuori",
+    "limit": "6"
   },
   {
-    "country": "ES",
-    "name": "Bellreguard",
+    "country": "EE",
+    "name": "Tallinn",
     "limit": "0"
   },
   {
@@ -91,8 +91,8 @@
     "limit": "6"
   },
   {
-    "country": "PH",
-    "name": "Suso",
+    "country": "EE",
+    "name": "Suure-Jaani",
     "limit": "5"
   }
  
