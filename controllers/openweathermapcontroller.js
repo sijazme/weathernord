@@ -7,7 +7,7 @@ var nconf = require('nconf');
 
 nconf.argv().env().file({ file: 'config.json' });
 
-const forecastcontroller = require('../controllers/forecastcontroller');
+const datacontroller = require('../controllers/datacontroller');
 
 exports.getForecastAll = (req, res) => {
 
@@ -59,7 +59,7 @@ exports.saveForecastAll = (req, res) => {
            //console.log(allAsyncResults);
             //jsondump(allAsyncResults);
             
-            forecastcontroller.saveForecastData(allAsyncResults);
+            datacontroller.saveForecastData(allAsyncResults);
 
             res.status(200).send({ message: "weather forcast data saved successfuly" });
 
