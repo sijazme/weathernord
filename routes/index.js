@@ -24,7 +24,6 @@ client.connect();
 /* GET home page. */
 router.get('/', function (req, res) {
 
-    
     readJsonFile().then((cityList) => {
 
         GetForcast(cityList).then(cityarray => {
@@ -35,18 +34,6 @@ router.get('/', function (req, res) {
                 var forcast = data.forcast;
                 var limit_exceeded = data.limit_exceeded;
                 var temp_lowest = data.temp_lowest;
-
-                console.log(cityname + " ---> " + temp_lowest + "limit exceeded : " + limit_exceeded);
-
-                // find if the temperature limit exceeds in the next 5 days forcast
-                //var cold_days = _.where(data.forcast, { flag: true });
-
-                //var limit_exceeded = cold_days.length > 0;
-                
-                //if (limit_exceeded) {
-                    
-                //}
-                
             }
 
             res.render('index', { title: 'Weather Forcast', data: cityarray });
@@ -54,8 +41,6 @@ router.get('/', function (req, res) {
 
         
     });
-
-    
 });
 
 router.get('/weather/:city', function (req, response) {
@@ -113,21 +98,11 @@ function comp(a, b) {
 
 const GetFormattedData = async (json, limit) => {
 
-    var cityname = json.city.name;
-
     var result = Object.entries(json.list).map(([k, v]) => ({ temp_lo: v.main.temp_min, date: v.dt_txt, flag: parseFloat(v.main.temp_min) < limit }));
 
     result.sort(comp);
 
     return result;
-
-    //fs.writeFile('json_dump.txt', JSON.stringify(result), function (err) {
-    //    if (err) return console.log(err);
-    //    console.log('json_dump saved');
-    //});
-
-  
-
 }
 
 const GetOpenMapCityForcast = async (url, limit) => {    
@@ -164,18 +139,11 @@ const GetForcast = async (cityList)  => {
             var limit = parseFloat(x.limit);
 
             const asnycResult = await GetOpenMapCityForcast(urlcity, limit);
-            const limit_exceeded = _.where(asnycResult, { flag: true }).length > 0;
-            //var lresult = _.where(asnycResult, { flag: true });
-            //console.log(lresult.length > 0);
-            //let temp_lowest = _.minBy(asnycResult, function (x) { return x.temp_min; });
+            const limit_exceeded = _.where(asnycResult, { flag: true }).length > 0;            
 
-            var arr = Object.entries(asnycResult).map(([key, value]) => [value.temp_lo]);
-            //
+            var arr = Object.entries(asnycResult).map(([key, value]) => [value.temp_lo]);            //
             var min = Math.min.apply(null, arr);
 
-            //console.log(min);
-
-            
             allAsyncResults.push({ city: x.name, temp_lowest: min, limit_exceeded: limit_exceeded, forcast: asnycResult });
         };
 

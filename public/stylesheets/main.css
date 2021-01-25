@@ -1,14 +1,31 @@
-body {    
-    margin: auto;
+body {
+    padding:10px;
 }
 
 a {
     color: #00B7FF;
 }
 
+.heading {
+    font-size: 22px;
+    font-family: verdana;
+    font-weight:300;
+    float: left;
+}
+.inline {
+    float: left;
+    padding-right: 2rem;
+    padding-left: 20px;
+    padding-top: 10px;
+    font-size: large;
+    font-family: courier,arial,helvetica;
+    text-align: center;
+    vertical-align: middle;
+}
+
 .bundle {
     float: left;
-    margin-right: 20px;    
+    margin-right:40px;
 }
 
 .divbox {
@@ -20,12 +37,11 @@ a {
     bottom: 5px;
     font-size: small;
     font-family: courier,arial,helvetica;
-    margin-right: 20px;
-    
 }
 
 .imgbox {
     float: left;
+    
 }
 
 div img {
