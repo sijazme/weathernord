@@ -18,6 +18,11 @@ exports.getForecastAll = (req, res) => {
     });
 };
 
+const jsondump = (json) => {
+    let data = JSON.stringify(json);
+    fs.writeFileSync('jsondump.json', data);
+}
+
 exports.saveForecastAll = (req, res) => {
        
     readJsonFile().then((cityList) => {
@@ -28,10 +33,15 @@ exports.saveForecastAll = (req, res) => {
 
             for (const city of citiesdata) {
 
-                if (city.limit_exceeded) {
+                if (city.limit_exceeded) {  // this only checks if limit exceeded, we still need to filter the forecast results according to lower limit
 
-                    for (const forecast of city.forcast) {
+                    // var filtered = _.filter(city.forcast, function (item) { return item.temp_lo < city.limit; });
+                    const filtered = _.where(city.forcast, { flag: true });
 
+                    //console.log(filtered);
+                    
+
+                    for (const forecast of filtered) {
                         
                         var data = {
                             "city": city.city,
@@ -40,13 +50,15 @@ exports.saveForecastAll = (req, res) => {
                             "date": forecast.date
                         }
 
-                        allAsyncResults.push(data);
-                        //console.log(data);
                         
+                        allAsyncResults.push(data);
                     }
                 }
             }
 
+           //console.log(allAsyncResults);
+            //jsondump(allAsyncResults);
+            
             forecastcontroller.saveForecastData(allAsyncResults);
 
             res.status(200).send({ message: "weather forcast data saved successfuly" });
@@ -122,7 +134,7 @@ const getOpenMapForecast = async (cityList) => {
 
             var arr = Object.entries(asnycResult).map(([key, value]) => [value.temp_lo]);
             var min = Math.min.apply(null, arr);
-
+            
             allAsyncResults.push({ city: x.name, limit: limit, temp_lowest: min, limit_exceeded: limit_exceeded, forcast: asnycResult });
         }
 

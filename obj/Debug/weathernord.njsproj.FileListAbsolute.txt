@@ -1,2 +1,1 @@
 C:\Users\ijazs\source\repos\weathernord\bin\Microsoft.NodejsTools.WebRole.dll
-C:\Users\ijazs\source\repos\weathernord\obj\Debug\weathernord.njsprojAssemblyReference.cache

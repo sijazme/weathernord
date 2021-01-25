@@ -34,10 +34,10 @@
     "name": "Eura",
     "limit": "9"
   },
-  
+
   {
-    "country": "DE",
-    "name": "Rhinow",
+    "country": "CL",
+    "name": "Coquimbo",
     "limit": "11"
   },
   {
@@ -52,7 +52,7 @@
   },
   {
     "country": "US",
-    "name": "West Orange",
+    "name": "Chino",
     "limit": "0"
   },
   {
