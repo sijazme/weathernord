@@ -8,7 +8,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var dotenv = require('dotenv').config();
 var nconf = require('nconf');
+
 const cron = require('node-cron');
+// 0 0 0/6 1/1 * ? *
+
 const axios = require('axios');
 var internetAvailable = require("internet-available");
 
@@ -70,14 +73,17 @@ var server = app.listen(app.get('port'), function () {
     debug('Express server listening on port ' + server.address().port);
 });
 
-// Schedule tasks to be run on the server.
+// Scheduled tasks to be run on the server. Frequence is a cron syntax string. 
 cron.schedule(nconf.get('Frequency'), function () {
 
     internetAvailable().then(function () {
+
         console.log('connecting to openweathermap.org');
         try
         {
-            var url = nconf.get('AppURL') + 'schedule';            
+            var url = nconf.get('AppURL') + '/schedule';
+
+            // run the scheduled task by calling a web function using promise based http client axios
             axios.get(url).then((response) => {
                 console.log(response.data);
             });
@@ -86,6 +92,7 @@ cron.schedule(nconf.get('Frequency'), function () {
             console.log(err);
         }
     }).catch(function () {
+        // if there is no internet then print to console
         console.log("No internet connection!");
     });
 });

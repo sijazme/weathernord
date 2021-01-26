@@ -1,4 +1,3 @@
-var dayjs = require('dayjs');
 
 // sql client query
 const { Client } = require('pg');
