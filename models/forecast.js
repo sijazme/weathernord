@@ -37,7 +37,7 @@ const getLimitForecast = async (limit) => {
 
 // helper method for getLimitForecast_
 const getLimitForecast_ = async (limit) => {
-    var query = 'SELECT * FROM weather WHERE \"limit\" = ' + limit;
+    var query = 'SELECT * FROM weather WHERE \"limit\" <= ' + limit;
     return getQueryResults(query);
 }
 
