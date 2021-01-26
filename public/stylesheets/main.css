@@ -27,6 +27,14 @@ a { color: #00B7FF; }
     margin-right:40px;
 }
 
+#pRange {
+    font-size: 14px;    
+    color: black;
+    text-align: center;
+    top: 50px;
+    position: absolute;
+}
+
 .divbox {
     float: left;
     height: 60px;

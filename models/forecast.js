@@ -9,8 +9,6 @@ function Forecast(city, temp_lo, limit) {
     this.city = city;
     this.temp_lo = temp_lo;
     this.limit = limit;
-
-    Connect();
 }
 
 const getClient = () => {

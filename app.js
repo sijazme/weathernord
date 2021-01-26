@@ -7,35 +7,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var dotenv = require('dotenv').config();
+var nconf = require('nconf');
 const cron = require('node-cron');
 const axios = require('axios');
 var internetAvailable = require("internet-available");
 var routes = require('./routes/index');
+var os = require('os');
+
 var app = express();
 
-
-// Schedule tasks to be run on the server.
-
-cron.schedule('* * * * *', function () {
-
-    internetAvailable().then(function () {
-        console.log('connecting to openweathermap.org');
-
-        try {
-            axios.get('http://localhost:3000/schedule').then((response) => {
-                console.log(response.data);
-            });
-        }
-
-        catch (err) {
-            console.log(err);
-        }
-    }).catch(function () {
-        console.log("No internet connection!");
-    });
-
-   
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -84,13 +64,34 @@ app.use(function (err, req, res, next) {
 });
 // end sql client query
 
-
 app.set('port', process.env.PORT || 3000);
 
 var server = app.listen(app.get('port'), function () {
     debug('Express server listening on port ' + server.address().port);
 });
 
+// Schedule tasks to be run on the server.
+cron.schedule(nconf.get('Frequency'), function () {
 
+    internetAvailable().then(function () {
+
+        console.log('connecting to openweathermap.org');
+
+        try
+        {
+            var url = nconf.get('AppURL') + 'schedule';
+            //console.log(url);
+            axios.get(url).then((response) => {
+                console.log(response.data);
+            });
+        }
+
+        catch (err) {
+            console.log(err);
+        }
+    }).catch(function () {
+        console.log("No internet connection!");
+    });
+});
 
 

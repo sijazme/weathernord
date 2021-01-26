@@ -33,13 +33,9 @@ exports.saveForecastAll = (req, res) => {
 
             for (const city of citiesdata) {
 
-                if (city.limit_exceeded) {  // this only checks if limit exceeded, we still need to filter the forecast results according to lower limit
-
-                    // var filtered = _.filter(city.forcast, function (item) { return item.temp_lo < city.limit; });
-                    const filtered = _.where(city.forcast, { flag: true });
-
-                    //console.log(filtered);
+                if (city.limit_exceeded) { 
                     
+                    const filtered = _.where(city.forcast, { flag: true });
 
                     for (const forecast of filtered) {
                         
@@ -50,19 +46,15 @@ exports.saveForecastAll = (req, res) => {
                             "date": forecast.date
                         }
 
-                        
                         allAsyncResults.push(data);
                     }
                 }
             }
-
-           //console.log(allAsyncResults);
+                       
             //jsondump(allAsyncResults);
             
             datacontroller.saveForecastData(allAsyncResults);
-
             res.status(200).send({ message: "weather forcast data saved successfuly" });
-
         });
     });
 };
@@ -72,7 +64,8 @@ const readJsonFile = async () => {
     var cityJsonData = null;
 
     try {
-        cityJsonData = await fs.readJson('cities.json');
+        var datafile = nconf.get('DataFile');
+        cityJsonData = await fs.readJson(datafile);
         return cityJsonData;
     } catch (err) {
         console.error(err);
@@ -98,18 +91,15 @@ const getFormattedData = async (json, limit) => {
 }
 
 const fetchCityForecast = async (cityname, limit) => {
-
-    var formattedData = null;
+    
     var url = nconf.get('OpenWeatherMapAPIURL');
     var urlcity = url.replace("{cityname}", cityname);
 
     try {
-
         return fetch(urlcity)
             .then(res => res.json())
             .then(json => {
-                formattedData = getFormattedData(json, limit);
-                return formattedData;
+                return getFormattedData(json, limit);
             });
 
     } catch (err) {
@@ -124,9 +114,7 @@ const getOpenMapForecast = async (cityList) => {
 
         const allAsyncResults = [];
 
-        for (const x of cityList) {
-
-            
+        for (const x of cityList) {            
             var cityname = x.name;
             const limit = parseFloat(x.limit);
             const asnycResult = await fetchCityForecast(cityname, limit);
