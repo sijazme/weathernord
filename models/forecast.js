@@ -5,6 +5,7 @@ const { Client } = require('pg');
 const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`
 const isProduction = process.env.NODE_ENV === 'production';
 
+// constructor for the forecast model
 function Forecast(city, temp_lo, limit) {
 
     this.city = city;
@@ -12,6 +13,7 @@ function Forecast(city, temp_lo, limit) {
     this.limit = limit;
 }
 
+// returns the postgres client object with open connection
 const getClient = () => {
     const client = new Client({
         connectionString: connectionString,
@@ -21,6 +23,26 @@ const getClient = () => {
     return client;
 };
 
+// get forecast where lower limit has been breached
+const getLimitForecast = async (limit) => {
+    try {
+        const forecast = await getLimitForecast_(limit);
+        return forecast;
+    }
+
+    catch (err) {
+        console.error(err);
+        return null;
+    }
+};
+
+// helper method for getLimitForecast_
+const getLimitForecast_ = async (limit) => {
+    var query = 'SELECT * FROM weather WHERE \"limit\" = ' + limit;
+    return getQueryResults(query);
+}
+
+// get forecast by start date
 const getDateForecast = async (date) => {
     try {
         const forecast = await getDateForecast_(date);
@@ -33,11 +55,10 @@ const getDateForecast = async (date) => {
     }
 };
 
+// helper method for getDateForecast
 const getDateForecast_ = async (date) => {
-
-    var dformat = dayjs(d).format('YYYY-MM-DD');
-    var query = 'SELECT * FROM weather WHERE date >= \'' + dformat + '\'::date;';
-    return getQueryResults(query)
+    var query = 'SELECT * FROM weather WHERE date >= \'' + date + '\'::date;';
+    return getQueryResults(query);
 }
 
 
@@ -101,3 +122,4 @@ const getQueryResults = async (query) => {
 exports.getCityForecastByName = getCityForecastByName;
 exports.saveForecastData = saveForecastData;
 exports.getDateForecast = getDateForecast;
+exports.getLimitForecast = getLimitForecast;

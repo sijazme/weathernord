@@ -9,7 +9,7 @@ nconf.argv().env().file({ file: 'config.json' });
 
 const datacontroller = require('../controllers/datacontroller');
 
-exports.getForecastAll = (req, res) => {
+exports.getOpenMapForecastAll = (req, res) => {
 
     readJsonFile().then((cityList) => {
         getOpenMapForecast(cityList).then(cityarray => {

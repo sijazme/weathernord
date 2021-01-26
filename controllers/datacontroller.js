@@ -29,7 +29,9 @@ exports.getDateForecast = (req, res) => {
 
     if (d.isValid())
     {
-        Forecast.getDateForecast(req.params.start)
+        var dformat = dayjs(d).format('YYYY-MM-DD');
+
+        Forecast.getDateForecast(dformat)
             .then((result) => {
                 res.status(200).send(result);
             });
@@ -37,6 +39,24 @@ exports.getDateForecast = (req, res) => {
     else
     {
         res.status(401).send('Date must be in valid format YYYYMMDD');
+    }
+};
+
+// get forcast for a limit number
+exports.getLimitForecast = (req, res) => {
+
+    val = parseFloat(req.params.number);
+    
+    if (!isNaN(val)) {
+
+        Forecast.getLimitForecast(val)
+            .then((result) => {
+                res.status(200).send(result);
+            });
+    }    
+    else
+    {
+        res.status(401).send('Limit must be a floating point number');
     }
 };
 
