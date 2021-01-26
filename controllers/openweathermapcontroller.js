@@ -54,7 +54,7 @@ exports.saveForecastAll = (req, res) => {
             //jsondump(allAsyncResults);
             
             datacontroller.saveForecastData(allAsyncResults);
-            res.status(200).send({ message: "weather forcast data saved successfuly" });
+            res.status(200).send({ message: "weather forcast data saved successfuly to postgres dabatase" });
         });
     });
 };

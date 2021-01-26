@@ -10,8 +10,14 @@ var dotenv = require('dotenv').config();
 var nconf = require('nconf');
 
 const cron = require('node-cron');
-// 0 0 0/6 1/1 * ? *
-// https://crontab.guru/
+
+// run job every five minutes
+// */5 * * * *
+
+// run job every 6 hours
+// 0 */6 * * *
+
+// more on this website https://crontab.guru/
 
 const axios = require('axios');
 var internetAvailable = require("internet-available");
@@ -82,8 +88,7 @@ cron.schedule(nconf.get('Frequency'), function () {
         console.log('connecting to openweathermap.org');
         try
         {
-            var url = nconf.get('AppURL') + '/schedule';
-            console.log(url);
+            var url = nconf.get('AppURL') + '/schedule';            
             // run the scheduled task by calling a web function using promise based http client axios
             axios.get(url).then((response) => {
                 console.log(response.data);

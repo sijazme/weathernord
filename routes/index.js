@@ -22,4 +22,7 @@ router.get('/date/:start', datacontroller.getDateForecast);
 // rest api router to get forecast by limit
 router.get('/limit/:number', datacontroller.getLimitForecast);
 
+// rest api router to get all forecast entries in the database
+router.get('/all', datacontroller.getForecastAll);
+
 module.exports = router;

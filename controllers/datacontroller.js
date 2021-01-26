@@ -1,6 +1,6 @@
 const Forecast = require("../models/forecast");
 const regex = '^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$';
-
+const dayjs = require('dayjs');
 
 // get forecast for a given city name
 exports.getCityForecast = (req, res) => {
@@ -58,6 +58,18 @@ exports.getLimitForecast = (req, res) => {
     {
         res.status(401).send('Limit must be a floating point number');
     }
+};
+
+// get all forcast entries since today
+
+exports.getForecastAll = (req, res) => {
+
+    var dformat = dayjs().format('YYYY-MM-DD');
+
+    Forecast.getDateForecast(dformat)
+        .then((result) => {
+            res.status(200).send(result);
+        });
 };
 
 // save forcast for all cities listed in the local json data file
