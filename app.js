@@ -11,6 +11,7 @@ var nconf = require('nconf');
 
 const cron = require('node-cron');
 // 0 0 0/6 1/1 * ? *
+// https://crontab.guru/
 
 const axios = require('axios');
 var internetAvailable = require("internet-available");
@@ -82,7 +83,7 @@ cron.schedule(nconf.get('Frequency'), function () {
         try
         {
             var url = nconf.get('AppURL') + '/schedule';
-
+            console.log(url);
             // run the scheduled task by calling a web function using promise based http client axios
             axios.get(url).then((response) => {
                 console.log(response.data);
