@@ -12,7 +12,6 @@ const cron = require('node-cron');
 const axios = require('axios');
 var internetAvailable = require("internet-available");
 var routes = require('./routes/index');
-var os = require('os');
 
 var app = express();
 
@@ -74,18 +73,14 @@ var server = app.listen(app.get('port'), function () {
 cron.schedule(nconf.get('Frequency'), function () {
 
     internetAvailable().then(function () {
-
         console.log('connecting to openweathermap.org');
-
         try
         {
-            var url = nconf.get('AppURL') + 'schedule';
-            //console.log(url);
+            var url = nconf.get('AppURL') + 'schedule';            
             axios.get(url).then((response) => {
                 console.log(response.data);
             });
         }
-
         catch (err) {
             console.log(err);
         }

@@ -114,12 +114,11 @@ const getOpenMapForecast = async (cityList) => {
 
         const allAsyncResults = [];
 
-        for (const x of cityList) {            
-            var cityname = x.name;
+        for (const x of cityList) {
+            
             const limit = parseFloat(x.limit);
-            const asnycResult = await fetchCityForecast(cityname, limit);
-            const limit_exceeded = _.where(asnycResult, { flag: true }).length > 0;            
-
+            const asnycResult = await fetchCityForecast(x.name, limit);
+            const limit_exceeded = _.where(asnycResult, { flag: true }).length > 0;
             var arr = Object.entries(asnycResult).map(([key, value]) => [value.temp_lo]);
             var min = Math.min.apply(null, arr);
             
