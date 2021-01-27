@@ -88,9 +88,9 @@ exports.getCityLimitForecast = (req, res) => {
 
 exports.getForecastAll = (req, res) => {
 
-    var dformat = dayjs().format('YYYY-MM-DD');
+    var today = dayjs().format('YYYY-MM-DD');
 
-    Forecast.getDateForecast(dformat)
+    Forecast.getDateForecast(today)
         .then((result) => {
             res.status(200).send(result);
         });
