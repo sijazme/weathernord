@@ -9,9 +9,9 @@ exports.getCityForecast = (req, res) => {
 
     if (city && city.match(regex)) {
 
-        city = city.charAt(0).toUpperCase() + city.slice(1);
+        var cityname = city.charAt(0).toUpperCase() + city.slice(1);
 
-        Forecast.getCityForecastByName(req.params.name)
+        Forecast.getCityForecastByName(cityname)
             .then((result) => {
                 res.status(200).send(result);                
             });
@@ -71,9 +71,9 @@ exports.getCityLimitForecast = (req, res) => {
 
     if (!isNaN(limit) && city && city.match(regex)) {
 
-        city = city.charAt(0).toUpperCase() + city.slice(1);
+        var cityname = city.charAt(0).toUpperCase() + city.slice(1);
 
-        Forecast.getCityLimitForecast(city,limit)
+        Forecast.getCityLimitForecast(cityname,limit)
             .then((result) => {
                 res.status(200).send(result);
             });
