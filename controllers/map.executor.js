@@ -153,15 +153,18 @@ const fetchCityForecast = async (cityname, limit) => {
 
 readJsonFile().then((cityList) =>
 {
-    openMapForecast(cityList).then((opendata) => {
+    if (cityList != null) {
 
-        saveForecast(opendata).then((data) =>
-        {            
-            try { parentPort.postMessage({ rows: data.length } ); }
-            catch (e) { console.log(e); }
+        openMapForecast(cityList).then((opendata) => {
+
+            saveForecast(opendata).then((data) =>
+            {            
+                try { parentPort.postMessage({ rows: data.length } ); }
+                catch (e) { console.log(e); }
             
+            });
         });
-    });
+    }
 });
 
 

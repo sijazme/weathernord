@@ -94,6 +94,95 @@
     "country": "EE",
     "name": "Suure-Jaani",
     "limit": "5"
+  },
+  {
+    "country": "GB",
+    "name": "Upwell",
+    "limit": "0"
+  },
+  {
+    "country": "ES",
+    "name": "Benaocaz",
+    "limit": "0"
+  },
+  {
+    "country": "FR",
+    "name": "Thilay",
+    "limit": "0"
+  },
+  {
+    "country": "GB",
+    "name": "Bankfoot",
+    "limit": "0"
+  },
+  {
+    "country": "MX",
+    "name": "Jalapa",
+    "limit": "0"
+  },
+  {
+    "country": "PH",
+    "name": "Ramain",
+    "limit": "0"
+  },
+  {
+    "country": "PT",
+    "name": "Seia",
+    "limit": "0"
+  },
+  {
+    "country": "RU",
+    "name": "Krasnoye",
+    "limit": "0"
+  },
+  {
+    "country": "IT",
+    "name": "Visano",
+    "limit": "0"
+  },
+  {
+    "country": "NL",
+    "name": "Schoonrewoerd",
+    "limit": "0"
+  },
+  {
+    "country": "NL",
+    "name": "Schagen",
+    "limit": "0"
+  },
+  {
+    "country": "RO",
+    "name": "Bulz",
+    "limit": "0"
+  },
+  {
+    "country": "SK",
+    "name": "Snina",
+    "limit": "0"
+  },
+  {
+    "country": "UA",
+    "name": "Blizhneye",
+    "limit": "0"
+  },
+  {
+    "country": "US",
+    "name": "Milton",
+    "limit": "0"
+  },
+  {
+    "country": "US",
+    "name": "Munhall",
+    "limit": "0"
+  },
+  {
+    "country": "HR",
+    "name": "Drenje",
+    "limit": "0"
+  },
+  {
+    "country": "MM",
+    "name": "Falam",
+    "limit": "0"
   }
- 
 ]

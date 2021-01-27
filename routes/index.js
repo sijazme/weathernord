@@ -16,10 +16,10 @@ router.get('/', openweathermapcontroller.getOpenMapForecastAll);
 // rest api router to get forecast for a particular city
 router.get('/city/:name', datacontroller.getCityForecast);
 
-// rest api router to get five day forecast for a start date
+// rest api to get five day forecast for a start date
 router.get('/date/:start', datacontroller.getDateForecast);
 
-// rest api router to get forecast by limit
+// rest api to get forecast by limit
 router.get('/limit/:number', datacontroller.getLimitForecast);
 
 // rest api router to get all forecast entries in the database

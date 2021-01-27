@@ -19,7 +19,7 @@ exports.saveForecastAll = async (req, res) => {
         worker.on('message', (result) => {
             res.status(200).send({ message: result.rows + " rows inserted to dabatase -- open weather forecast information saved."   });
         });
-        worker.on('exit', (code) => {            
+        worker.on('exit', (code) => {
         });
     }
 };
