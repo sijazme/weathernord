@@ -5,6 +5,8 @@ var express = require('express');
 const fs = require('fs-extra');
 var nconf = require('nconf');
 
+const { Worker, isMainThread} = require('worker_threads');
+
 nconf.argv().env().file({ file: 'config.json' });
 
 const datacontroller = require('../controllers/datacontroller');
@@ -23,40 +25,18 @@ const jsondump = (json) => {
     fs.writeFileSync('jsondump.json', data);
 }
 
-exports.saveForecastAll = (req, res) => {
-       
-    readJsonFile().then((cityList) => {
+exports.saveForecastAll = async (req, res) => {
 
-        getOpenMapForecast(cityList).then(citiesdata => {
-
-            const allAsyncResults = [];
-
-            for (const city of citiesdata) {
-
-                if (city.limit_exceeded) { 
-                    
-                    const filtered = _.where(city.forcast, { flag: true });
-
-                    for (const forecast of filtered) {
-                        
-                        var data = {
-                            "city": city.city,
-                            "temp_lo": forecast.temp_lo,
-                            "limit": city.limit,
-                            "date": forecast.date
-                        }
-
-                        allAsyncResults.push(data);
-                    }
-                }
-            }
-                       
-            //jsondump(allAsyncResults);
-            
-            datacontroller.saveForecastData(allAsyncResults);
-            res.status(200).send({ message: "weather forcast data saved successfuly to postgres dabatase" });
+    if (isMainThread) {        
+        
+        const worker = new Worker(__dirname + '/map.executor.js', { workerData: { value: "" } });
+        worker.on('message', (result) => {
+            res.status(200).send({ message: result.rows + " rows inserted to dabatase -- open weather forecast information saved."   });
         });
-    });
+        worker.on('exit', (code) => {
+            
+        });
+    }
 };
 
 const readJsonFile = async () => {

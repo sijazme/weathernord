@@ -94,9 +94,28 @@ const saveForecastData = async (data) => {
     }
 
     const query = allAsyncResults.join("");
-    return getQueryResults(query);
+    return getQueryResultsInsert(query);
    
 };
+
+const getQueryResultsInsert = async (query) => {
+
+    var client = getClient();
+
+    return new Promise(function (resolve, reject) {
+        client.query(query, function (err, result) {
+            
+            if (err) {
+                return reject(err);
+            } else {
+                //console.log(result.rowCount);
+                client.end();
+                return resolve(result);
+            }
+        });
+    });
+
+}
 
 
 const getQueryResults = async (query) => {

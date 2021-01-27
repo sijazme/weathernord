@@ -73,9 +73,14 @@ exports.getForecastAll = (req, res) => {
 };
 
 // save forcast for all cities listed in the local json data file
-exports.saveForecastData = (data) => {
-    Forecast.saveForecastData(data)
-    .then((result) => {
-        
+exports.saveForecastData = async (data) => {
+
+    return new Promise((resolve, reject) => {
+
+        Forecast.saveForecastData(data)
+            .then((result) => {
+                return resolve(result);
+            });
     });
+
 };
