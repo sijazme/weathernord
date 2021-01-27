@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 var _ = require('underscore');
 const fs = require('fs-extra');
 var nconf = require('nconf');
-const datacontroller = require('../controllers/datacontroller');
+const datacontroller = require('./datacontroller');
 
 nconf.argv().env().file({ file: 'config.json' });
 
@@ -48,7 +48,7 @@ const readJsonFile = async () => {
     }
 }
 
-// saveforcast methods calls the datacontroller to insert rows into the database
+// saveforecast methods calls the datacontroller to insert rows into the database
 const saveForecast = function (opendata) {
 
         return new Promise((resolve, reject) => {

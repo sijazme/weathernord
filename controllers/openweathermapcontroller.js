@@ -1,7 +1,7 @@
 var nconf = require('nconf');
 const { Worker, isMainThread} = require('worker_threads');
 nconf.argv().env().file({ file: 'config.json' });
-const mapexecutor = require("../controllers/map.executor");
+const mapexecutor = require("./openmap.executor");
 
 exports.getOpenMapForecastAll = (req, res) => {
 
@@ -15,7 +15,7 @@ exports.getOpenMapForecastAll = (req, res) => {
 exports.saveForecastAll = async (req, res) => {
 
     if (isMainThread) {        
-        const worker = new Worker(__dirname + '/map.executor.js', { workerData: { value: "" } });
+        const worker = new Worker(__dirname + '/openmap.executor.js', { workerData: { value: "" } });
         worker.on('message', (result) => {
             res.status(200).send({ message: result.rows + " rows inserted to dabatase -- open weather forecast information saved."   });
         });
