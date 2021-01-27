@@ -1,6 +1,3 @@
-const fetch = require('node-fetch');
-var _ = require('underscore');
-var express = require('express');
 
 const fs = require('fs-extra');
 var nconf = require('nconf');
@@ -20,95 +17,19 @@ exports.getOpenMapForecastAll = (req, res) => {
     });
 };
 
-const jsondump = (json) => {
-    let data = JSON.stringify(json);
-    fs.writeFileSync('jsondump.json', data);
-}
-
 exports.saveForecastAll = async (req, res) => {
 
     if (isMainThread) {        
-        
         const worker = new Worker(__dirname + '/map.executor.js', { workerData: { value: "" } });
         worker.on('message', (result) => {
             res.status(200).send({ message: result.rows + " rows inserted to dabatase -- open weather forecast information saved."   });
         });
-        worker.on('exit', (code) => {
-            
+        worker.on('exit', (code) => {            
         });
     }
 };
 
-const readJsonFile = async () => {
 
-    var cityJsonData = null;
 
-    try {
-        var datafile = nconf.get('DataFile');
-        cityJsonData = await fs.readJson(datafile);
-        return cityJsonData;
-    } catch (err) {
-        console.error(err);
-        return null;
-    }
-}
 
-function comp(a, b) {
-    return new Date(a.date).getTime() - new Date(b.date).getTime();
-}
 
-const getFormattedData = async (json, limit) => {
-
-    var result = Object.entries(json.list).map(([k, v]) => ({        
-        temp_lo: v.main.temp_min,
-        date: v.dt_txt,
-        flag: parseFloat(v.main.temp_min) < limit
-    }));
-
-    result.sort(comp);
-
-    return result;
-}
-
-const fetchCityForecast = async (cityname, limit) => {
-    
-    var url = nconf.get('OpenWeatherMapAPIURL');
-    var urlcity = url.replace("{cityname}", cityname);
-
-    try {
-        return fetch(urlcity)
-            .then(res => res.json())
-            .then(json => {
-                return getFormattedData(json, limit);
-            });
-
-    } catch (err) {
-        console.error(err);
-        return null;
-    }
-}
-
-const getOpenMapForecast = async (cityList) => {
-
-    try {
-
-        const allAsyncResults = [];
-
-        for (const x of cityList) {
-            
-            const limit = parseFloat(x.limit);
-            const asnycResult = await fetchCityForecast(x.name, limit);
-            const limit_exceeded = _.where(asnycResult, { flag: true }).length > 0;
-            var arr = Object.entries(asnycResult).map(([key, value]) => [value.temp_lo]);
-            var min = Math.min.apply(null, arr);
-            
-            allAsyncResults.push({ city: x.name, limit: limit, temp_lowest: min, limit_exceeded: limit_exceeded, forcast: asnycResult });
-        }
-
-        return allAsyncResults;
-    }
-    catch (err) {
-        console.error(err);
-        return null;
-    }
-}

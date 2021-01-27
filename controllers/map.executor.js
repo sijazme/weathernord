@@ -1,5 +1,4 @@
 const { workerData, parentPort } = require('worker_threads');
-var cityJsonData = null;
 
 const fetch = require('node-fetch');
 var _ = require('underscore');
@@ -11,44 +10,7 @@ nconf.argv().env().file({ file: 'config.json' });
 
 const datacontroller = require('../controllers/datacontroller');
 
-// You can do any heavy stuff here, in a synchronous way
-// without blocking the "main thread"
-
-//const OpenMapForecastSaveAll = () => {
-
-//    readJsonFile().then((cityList) => {
-
-//        getOpenMapForecast(cityList).then(citiesdata => {
-
-//            const allAsyncResults = [];
-
-//            for (const city of citiesdata) {
-
-//                if (city.limit_exceeded) {
-
-//                    const filtered = _.where(city.forcast, { flag: true });
-
-//                    for (const forecast of filtered) {
-
-//                        var data = {
-//                            "city": city.city,
-//                            "temp_lo": forecast.temp_lo,
-//                            "limit": city.limit,
-//                            "date": forecast.date
-//                        }
-
-//                        allAsyncResults.push(data);
-//                    }
-//                }
-//            }
-
-//            var result = datacontroller.saveForecastData(allAsyncResults);
-//            console.log(result);
-//            return { value : "forcast saved"};
-//        });
-//    });
-//}
-
+// You can do any heavy stuff here, in a synchronous way without blocking the "main thread"
 
 const getOpenMapForecast = async (cityList) => {
 
@@ -75,12 +37,13 @@ const getOpenMapForecast = async (cityList) => {
     }
 }
 
+// reads the json file from the local server with all the names of the cities
 
 const readJsonFile = async () => {
 
     try {
         var datafile = nconf.get('DataFile');
-        cityJsonData = await fs.readJson(datafile);
+        var cityJsonData = await fs.readJson(datafile);
         return cityJsonData;
     } catch (err) {
         console.error(err);
@@ -88,7 +51,8 @@ const readJsonFile = async () => {
     }
 }
 
-const saveforecast = async function (opendata) {
+// saveforcast methods calls the datacontroller to insert rows into the database
+const saveforecast = function (opendata) {
 
         return new Promise((resolve, reject) => {
 
@@ -99,40 +63,45 @@ const saveforecast = async function (opendata) {
             });
 
         });
-   
 }
 
 const openforecast = async function (citydata) {
 
     return new Promise((resolve, reject) => {
 
+        const allAsyncResults = [];
+
         getOpenMapForecast(citydata).then(citiesdata => {
 
-            //console.log('city data' + citydata.length);
+            if (citiesdata != null && citiesdata.length > 0) {
 
-            const allAsyncResults = [];
+                for (const city of citiesdata) {
 
-            for (const city of citiesdata) {
+                    if (city.limit_exceeded) {
 
-                if (city.limit_exceeded) {
+                        const filtered = _.where(city.forcast, { flag: true });
 
-                    const filtered = _.where(city.forcast, { flag: true });
+                        for (const forecast of filtered) {
 
-                    for (const forecast of filtered) {
+                            var data = {
+                                "city": city.city,
+                                "temp_lo": forecast.temp_lo,
+                                "limit": city.limit,
+                                "date": forecast.date
+                            }
 
-                        var data = {
-                            "city": city.city,
-                            "temp_lo": forecast.temp_lo,
-                            "limit": city.limit,
-                            "date": forecast.date
+                            allAsyncResults.push(data);
                         }
-
-                        allAsyncResults.push(data);
                     }
                 }
+
+                resolve(allAsyncResults);
             }
-            
-            resolve(allAsyncResults);           
+
+            else
+            {
+                reject(allAsyncResults);
+            }
         });
 
     });
