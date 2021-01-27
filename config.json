@@ -1,5 +1,5 @@
 ﻿{
-  "Frequency": "0 */12 * * *",
+  "Frequency": "*/5 * * * *",
   "AppURL": "https://weathernord.herokuapp.com",
   "DataFile": "cities.json",
   "OpenWeatherMapAPIKey": "2857987153c823b8e95a4bd9dbf70fdb",
