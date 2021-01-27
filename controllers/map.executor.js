@@ -58,12 +58,19 @@ const saveForecast = function (opendata) {
 
             datacontroller.saveForecastData(opendata).then((result) => {
 
-                return resolve(result);
+                if (result != null) {
+                    return resolve(result);
+                }
+                else {
+                    return reject(result);
+                }
 
             });
 
         });
 }
+
+// collect openmap forecast data for all cities in the json config file and add them to an array for saving into the database
 
 const openMapForecast = async function (citydata) {
 
@@ -107,12 +114,12 @@ const openMapForecast = async function (citydata) {
     });
 }
 
-
-
+// compare two dates
 function comp(a, b) {
     return new Date(a.date).getTime() - new Date(b.date).getTime();
 }
 
+// format the json data to flag which forecast results actually break the lower temperature limit
 const getFormattedData = async (json, limit) => {
 
     var result = Object.entries(json.list).map(([k, v]) => ({
@@ -126,6 +133,7 @@ const getFormattedData = async (json, limit) => {
     return result;
 }
 
+// use node fetch tp call the open maps api and collect the forecast data for a particular city
 const fetchCityForecast = async (cityname, limit) => {
 
     var url = nconf.get('OpenWeatherMapAPIURL');
