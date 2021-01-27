@@ -8,10 +8,12 @@ nconf.argv().env().file({ file: 'config.json' });
 
 const datacontroller = require('../controllers/datacontroller');
 
+const mapexecutor = require("../controllers/map.executor");
+
 exports.getOpenMapForecastAll = (req, res) => {
 
-    readJsonFile().then((cityList) => {
-        getOpenMapForecast(cityList).then(cityarray => {
+    mapexecutor.readJsonFile().then((cityList) => {        
+        mapexecutor.getOpenMapForecast(cityList).then(cityarray => {
             res.render('index', { title: 'Weather Forcast', data: cityarray });
         });
     });
@@ -29,7 +31,16 @@ exports.saveForecastAll = async (req, res) => {
     }
 };
 
+const readJsonFile = async () => {
 
-
+    try {
+        var datafile = nconf.get('DataFile');
+        var cityJsonData = await fs.readJson(datafile);
+        return cityJsonData;
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+}
 
 

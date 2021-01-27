@@ -1,14 +1,11 @@
 const { workerData, parentPort } = require('worker_threads');
-
 const fetch = require('node-fetch');
 var _ = require('underscore');
-
 const fs = require('fs-extra');
 var nconf = require('nconf');
+const datacontroller = require('../controllers/datacontroller');
 
 nconf.argv().env().file({ file: 'config.json' });
-
-const datacontroller = require('../controllers/datacontroller');
 
 // You can do any heavy stuff here, in a synchronous way without blocking the "main thread"
 
@@ -72,7 +69,7 @@ const saveForecast = function (opendata) {
 
 // collect openmap forecast data for all cities in the json config file and add them to an array for saving into the database
 
-const openMapForecast = async function (citydata) {
+const openMapForecast =  function (citydata) {
 
     return new Promise((resolve, reject) => {
 
@@ -166,3 +163,7 @@ readJsonFile().then((cityList) =>
         });
     });
 });
+
+
+exports.getOpenMapForecast = getOpenMapForecast;
+exports.readJsonFile = readJsonFile;
