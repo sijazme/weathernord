@@ -52,7 +52,7 @@ const readJsonFile = async () => {
 }
 
 // saveforcast methods calls the datacontroller to insert rows into the database
-const saveforecast = function (opendata) {
+const saveForecast = function (opendata) {
 
         return new Promise((resolve, reject) => {
 
@@ -65,7 +65,7 @@ const saveforecast = function (opendata) {
         });
 }
 
-const openforecast = async function (citydata) {
+const openMapForecast = async function (citydata) {
 
     return new Promise((resolve, reject) => {
 
@@ -144,12 +144,13 @@ const fetchCityForecast = async (cityname, limit) => {
     }
 }
 
+// Read the json file with all the cities data and attempt to retreive weather forcast for each city from the openweathermap api
 
 readJsonFile().then((cityList) =>
 {
-    openforecast(cityList).then((opendata) => {
+    openMapForecast(cityList).then((opendata) => {
 
-        saveforecast(opendata).then((data) =>
+        saveForecast(opendata).then((data) =>
         {            
             try { parentPort.postMessage({ rows: data.length } ); }
             catch (e) { console.log(e); }
