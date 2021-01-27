@@ -32,9 +32,7 @@
     <Content Include="app.js" />
     <Content Include="config.json" />
     <Content Include="controllers\datacontroller.js" />
-    <Content Include="controllers\map.executor.js">
-      <SubType>Code</SubType>
-    </Content>
+    <Content Include="controllers\openmap.executor.js" />
     <Content Include="controllers\openweathermapcontroller.js" />
     <Content Include="models\forecast.js" />
     <Content Include="public\images\cold.png" />
