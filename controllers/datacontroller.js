@@ -9,6 +9,8 @@ exports.getCityForecast = (req, res) => {
 
     if (city && city.match(regex)) {
 
+        city = city.charAt(0).toUpperCase() + city.slice(1);
+
         Forecast.getCityForecastByName(req.params.name)
             .then((result) => {
                 res.status(200).send(result);                
@@ -45,7 +47,7 @@ exports.getDateForecast = (req, res) => {
 // get forcast for a limit number
 exports.getLimitForecast = (req, res) => {
 
-    val = parseFloat(req.params.number);
+    var val = parseFloat(req.params.number);
     
     if (!isNaN(val)) {
 
@@ -59,6 +61,28 @@ exports.getLimitForecast = (req, res) => {
         res.status(401).send('Limit must be a floating point number');
     }
 };
+
+// get forecast for a city given a limit
+
+exports.getCityLimitForecast = (req, res) => {
+
+    var city = req.params.city;
+    var limit = parseFloat(req.params.number);
+
+    if (!isNaN(limit) && city && city.match(regex)) {
+
+        city = city.charAt(0).toUpperCase() + city.slice(1);
+
+        Forecast.getCityLimitForecast(city,limit)
+            .then((result) => {
+                res.status(200).send(result);
+            });
+    }
+    else {
+        res.status(401).send('city and limit parameters must be in correct format, example: limit/chicago/10');
+    }
+};
+
 
 // get all forcast entries since today
 

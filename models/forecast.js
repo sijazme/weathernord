@@ -37,7 +37,28 @@ const getLimitForecast = async (limit) => {
 
 // helper method for getLimitForecast_
 const getLimitForecast_ = async (limit) => {
-    var query = 'SELECT * FROM weather WHERE \"limit\" <= ' + limit;
+    var query = 'SELECT * FROM weather WHERE \"temp_lo\" <= ' + limit;
+    return getQueryResults(query);
+}
+
+
+// get forecast where lower limit has been breached
+const getCityLimitForecast = async (city, limit) => {
+    try {
+        const forecast = await getCityLimitForecast_(city, limit);
+        return forecast;
+    }
+
+    catch (err) {
+        console.error(err);
+        return null;
+    }
+};
+
+// helper method for getLimitForecast_
+const getCityLimitForecast_ = async (city, limit) => {
+    
+    var query = 'SELECT * FROM weather WHERE city = \'' + city + '\' AND \"temp_lo\" <= ' + limit;
     return getQueryResults(query);
 }
 
@@ -60,11 +81,11 @@ const getDateForecast_ = async (date) => {
     return getQueryResults(query);
 }
 
-
-const getCityForecastByName = async (cityname) =>
+// get city forecast by name of the city
+const getCityForecastByName = async (city) =>
 {
     try {
-        const forecast = await getCityForecastByName_(cityname);        
+        const forecast = await getCityForecastByName_(city);        
         return forecast;
     }
 
@@ -74,15 +95,15 @@ const getCityForecastByName = async (cityname) =>
     }
 };
 
+// get city forecast helper
 const getCityForecastByName_ = async (city) => {
-
-    var cityname = city.charAt(0).toUpperCase() + city.slice(1);
-    var query = 'SELECT * FROM weather WHERE city = \'' + cityname + '\';';
+    
+    var query = 'SELECT * FROM weather WHERE city = \'' + city + '\';';
     return getQueryResults(query);
 
 }
 
-
+// save forecast data into the database using insert statements
 const saveForecastData = async (data) => {
 
     const allAsyncResults = [];
@@ -117,7 +138,7 @@ const getQueryResultsInsert = async (query) => {
 
 }
 
-
+// generic query method that runs the query and returns the rows
 const getQueryResults = async (query) => {
 
     var client = getClient();
@@ -142,3 +163,4 @@ exports.getCityForecastByName = getCityForecastByName;
 exports.saveForecastData = saveForecastData;
 exports.getDateForecast = getDateForecast;
 exports.getLimitForecast = getLimitForecast;
+exports.getCityLimitForecast = getCityLimitForecast;

@@ -1,7 +1,8 @@
 var nconf = require('nconf');
 const { Worker, isMainThread} = require('worker_threads');
 nconf.argv().env().file({ file: 'config.json' });
-const mapexecutor = require("./openmap.executor");
+
+const mapexecutor = require('./openmap.executor');
 
 exports.getOpenMapForecastAll = (req, res) => {
 

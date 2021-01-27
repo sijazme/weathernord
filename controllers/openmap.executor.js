@@ -153,7 +153,7 @@ const fetchCityForecast = async (cityname, limit) => {
 
 readJsonFile().then((cityList) =>
 {
-    if (cityList != null) {
+    if (parentPort != null && cityList != null) {
 
         openMapForecast(cityList).then((opendata) => {
 
@@ -166,7 +166,6 @@ readJsonFile().then((cityList) =>
         });
     }
 });
-
 
 exports.getOpenMapForecast = getOpenMapForecast;
 exports.readJsonFile = readJsonFile;

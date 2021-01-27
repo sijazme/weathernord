@@ -11,6 +11,8 @@ var nconf = require('nconf');
 
 const cron = require('node-cron');
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
+
 // run job every five minutes
 // */5 * * * *
 
