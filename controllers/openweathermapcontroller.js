@@ -5,6 +5,7 @@ nconf.argv().env().file({ file: 'config.json' });
 const mapexecutor = require('./openmap.executor');
 
 exports.getOpenMapForecastAll = (req, res) => {
+       
 
     mapexecutor.readJsonFile().then((cityList) => {        
         mapexecutor.getOpenMapForecast(cityList).then(cityarray => {

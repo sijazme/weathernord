@@ -12,13 +12,15 @@ exports.getCityForecast = (req, res) => {
         var cityname = city.charAt(0).toUpperCase() + city.slice(1);
 
         Forecast.getCityForecastByName(cityname)
-            .then((result) => {
-                res.status(200).send(result);                
+            .then((result) => {                
+                res.status(200).send(result);
+            }).catch(function (error) {
+                res.status(400).send({ message: "Forecast data not found for city" });
             });
     }
     else
     {
-        res.status(401).send('City name must be in valid format');
+        res.status(400).send('City name must be in valid format');
     }
        
     
@@ -36,11 +38,13 @@ exports.getDateForecast = (req, res) => {
         Forecast.getDateForecast(dformat)
             .then((result) => {
                 res.status(200).send(result);
+            }).catch(function (error) {                
+                res.status(400).send({ message: "No records found for given date." });
             });
     }
     else
-    {
-        res.status(401).send('Date must be in valid format YYYYMMDD');
+    {   
+        res.status(400).send({ message: "Date must be in valid format YYYYMMDD." });
     }
 };
 
@@ -54,11 +58,13 @@ exports.getLimitForecast = (req, res) => {
         Forecast.getLimitForecast(val)
             .then((result) => {
                 res.status(200).send(result);
+            }).catch(function (error) {                
+                res.status(400).send({ message: "No records found for given limit." });
             });
     }    
     else
-    {
-        res.status(401).send('Limit must be a floating point number');
+    {   
+        res.status(400).send({ message: "Limit must be a floating point number." });
     }
 };
 
@@ -76,10 +82,12 @@ exports.getCityLimitForecast = (req, res) => {
         Forecast.getCityLimitForecast(cityname,limit)
             .then((result) => {
                 res.status(200).send(result);
+            }).catch(function (error) {                
+                res.status(400).send({ message: "No records found for given city and limit." });
             });
     }
     else {
-        res.status(401).send('city and limit parameters must be in correct format, example: limit/chicago/10');
+        res.status(400).send({ message: "City and limit parameters must be in correct format, example: limit/chicago/10." });
     }
 };
 
@@ -93,6 +101,8 @@ exports.getForecastAll = (req, res) => {
     Forecast.getDateForecast(today)
         .then((result) => {
             res.status(200).send(result);
+        }).catch(function (error) {            
+            res.status(400).send({ message: "No records found" });
         });
 };
 

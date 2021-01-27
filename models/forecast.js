@@ -5,11 +5,12 @@ const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_P
 const isProduction = process.env.NODE_ENV === 'production';
 
 // constructor for the forecast model
-function Forecast(city, temp_lo, limit) {
+function Forecast(city, temp_lo, limit, date) {
 
     this.city = city;
     this.temp_lo = temp_lo;
     this.limit = limit;
+    this.date = date;
 }
 
 // returns the postgres client object with open connection
@@ -23,85 +24,30 @@ const getClient = () => {
 };
 
 // get forecast where lower limit has been breached
-const getLimitForecast = async (limit) => {
-    try {
-        const forecast = await getLimitForecast_(limit);
-        return forecast;
-    }
-
-    catch (err) {
-        console.error(err);
-        return null;
-    }
-};
-
-// helper method for getLimitForecast_
-const getLimitForecast_ = async (limit) => {
+const getLimitForecast = (limit) => {
     var query = 'SELECT * FROM weather WHERE \"temp_lo\" <= ' + limit;
     return getQueryResults(query);
-}
-
+};
 
 // get forecast where lower limit has been breached
-const getCityLimitForecast = async (city, limit) => {
-    try {
-        const forecast = await getCityLimitForecast_(city, limit);
-        return forecast;
-    }
-
-    catch (err) {
-        console.error(err);
-        return null;
-    }
-};
-
-// helper method for getLimitForecast_
-const getCityLimitForecast_ = async (city, limit) => {
-    
+const getCityLimitForecast = (city, limit) => {
     var query = 'SELECT * FROM weather WHERE city = \'' + city + '\' AND \"temp_lo\" <= ' + limit;
     return getQueryResults(query);
-}
+};
 
 // get forecast by start date
-const getDateForecast = async (date) => {
-    try {
-        const forecast = await getDateForecast_(date);
-        return forecast;
-    }
-
-    catch (err) {
-        console.error(err);
-        return null;
-    }
-};
-
-// helper method for getDateForecast
-const getDateForecast_ = async (date) => {
+const getDateForecast = (date) => {
     var query = 'SELECT * FROM weather WHERE date >= \'' + date + '\'::date;';
     return getQueryResults(query);
-}
-
-// get city forecast by name of the city
-const getCityForecastByName = async (city) =>
-{
-    try {
-        const forecast = await getCityForecastByName_(city);        
-        return forecast;
-    }
-
-    catch (err) {
-        console.error(err);
-        return null;
-    }
 };
 
-// get city forecast helper
-const getCityForecastByName_ = async (city) => {
-    
+// get city forecast by name of the city
+const getCityForecastByName = (city) =>
+{
     var query = 'SELECT * FROM weather WHERE city = \'' + city + '\';';
-    return getQueryResults(query);
 
-}
+    return getQueryResults(query);
+};
 
 // save forecast data into the database using insert statements
 const saveForecastData = async (data) => {
@@ -119,24 +65,6 @@ const saveForecastData = async (data) => {
    
 };
 
-const getQueryResultsInsert = async (query) => {
-
-    var client = getClient();
-
-    return new Promise(function (resolve, reject) {
-        client.query(query, function (err, result) {
-            
-            if (err) {
-                return reject(err);
-            } else {
-                //console.log(result.rowCount);
-                client.end();
-                return resolve(result);
-            }
-        });
-    });
-
-}
 
 // generic query method that runs the query and returns the rows
 const getQueryResults = async (query) => {
@@ -146,18 +74,46 @@ const getQueryResults = async (query) => {
     return new Promise(function (resolve, reject) {
         client.query(query, function (err, result) {
             client.end();
-            if (err) {
+
+            if (err)
+            {
                 return reject(err);
-            } else {
+            }
+            else
+            {
                 if (result.rowCount > 0) {
                     return resolve(result.rows);
                 }
+
+                else {
+                    return reject(new Error("Not Found"));
+                }
             }
-            return resolve("not found");
+            
         });
     });
 
 }
+
+const getQueryResultsInsert = async (query) => {
+
+    var client = getClient();
+
+    return new Promise(function (resolve, reject) {
+        client.query(query, function (err, result) {
+
+            client.end();
+
+            if (err) {
+                return reject(err);
+            } else {
+                return resolve(result);
+            }
+        });
+    });
+
+}
+
 
 exports.getCityForecastByName = getCityForecastByName;
 exports.saveForecastData = saveForecastData;
