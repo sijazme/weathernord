@@ -1,13 +1,6 @@
-
-const fs = require('fs-extra');
 var nconf = require('nconf');
-
 const { Worker, isMainThread} = require('worker_threads');
-
 nconf.argv().env().file({ file: 'config.json' });
-
-const datacontroller = require('../controllers/datacontroller');
-
 const mapexecutor = require("../controllers/map.executor");
 
 exports.getOpenMapForecastAll = (req, res) => {
@@ -30,17 +23,3 @@ exports.saveForecastAll = async (req, res) => {
         });
     }
 };
-
-const readJsonFile = async () => {
-
-    try {
-        var datafile = nconf.get('DataFile');
-        var cityJsonData = await fs.readJson(datafile);
-        return cityJsonData;
-    } catch (err) {
-        console.error(err);
-        return null;
-    }
-}
-
-
