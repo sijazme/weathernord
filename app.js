@@ -97,7 +97,7 @@ cron.schedule(nconf.get('Frequency'), function () {
             });
         }
         catch (err) {
-            console.log(err);
+            console.log("scheduled task failed");
         }
     }).catch(function () {
         // if there is no internet then print to console
